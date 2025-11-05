@@ -104,4 +104,31 @@ public class MyDynamicProg {
         return nums[nums.length - 1];
     }
 
+    public static int numDecodings(String s) {
+
+        if (s == null || s.isEmpty() || s.charAt(0) == '0') {
+            return 0;
+        }
+
+        int[] dp = new int[s.length()];
+        dp[0] = 1;
+        for (int i = 1 ; i < s.length() - 1; i++) {
+            int prevVal = dp[i-1];
+            char ch = s.charAt(i);
+            if (ch == '0') {
+                dp[i] = prevVal;
+                continue;
+            }
+            char prevCh = s.charAt(i-1);
+            int num1 = (prevCh - '0') * 10 + ch - '0';
+            if (num1 > 9 && num1 < 27 && prevCh != '0') {
+                dp[i] = prevVal + 1;
+            } else {
+                dp[i] = prevVal;
+            }
+        }
+
+        return dp[dp.length - 1];
+    }
+
 }
